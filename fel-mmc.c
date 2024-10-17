@@ -273,16 +273,6 @@ static int mmc_core_init(const feldev_handle *dev)
 	writel(1, SUNXI_MMC_HWRST);
 }
 
-static void mmc_config_delay(const feldev_handle *dev, uint32_t clock)
-{
-	uint32_t reg_val;
-
-	reg_val = readl(SUNXI_MMC_DRV_DL);
-	reg_val &= ~0x3f;
-	reg_val |= 0x1f;
-	writel(reg_val, SUNXI_MMC_DRV_DL);
-}
-
 static int mmc_config_clock_modex(const feldev_handle *dev, uint32_t clock)
 {
 	int ret;
@@ -306,8 +296,6 @@ static int mmc_config_clock_modex(const feldev_handle *dev, uint32_t clock)
 	ret = mmc_update_clk(dev);
 	if (ret)
 		return ret;
-
-	mmc_config_delay(dev, clock);
 
 	return 0;
 }
