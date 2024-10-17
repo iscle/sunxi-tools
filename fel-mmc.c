@@ -331,35 +331,6 @@ static int mmc_config_clock(const feldev_handle *dev, uint32_t clock)
 	return 0;
 }
 
-static int mmc_set_ios(const feldev_handle *dev, uint32_t clock, uint32_t bus_width, uint32_t speed_mode)
-{
-	uint32_t reg_val;
-	int cnt;
-
-	if (clock) {
-		// TODO
-	}
-
-	switch (bus_width) {
-	case 1:
-		writel(0, SUNXI_MMC_CTYPE);
-		break;
-	case 4:
-		writel(1, SUNXI_MMC_CTYPE);
-		break;
-	case 8:
-		writel(2, SUNXI_MMC_CTYPE);
-		break;
-	default:
-		printf("Unsupported bus width %d\n", bus_width);
-		return -1;
-	}
-
-	// TODO: Implement DDR speed mode
-
-	return 0;
-}
-
 /*
  * Init the MMC controller and setup pins muxing.
  */
@@ -444,7 +415,7 @@ static bool mmc_init(feldev_handle *dev)
 	/* Set 8-bit bus width */
 	writel(0x2, SUNXI_MMC_CTYPE);
 
-	mmc_config_clock(dev, 25000000);
+	mmc_config_clock(dev, 400000);
 
 	debug("Setting MMC bus width...\n");
 
