@@ -139,9 +139,14 @@ HOST_CFLAGS = $(DEFAULT_CFLAGS) $(CFLAGS)
 PROGRESS := progress.c progress.h
 SOC_INFO := soc_info.c soc_info.h
 FEL_LIB  := fel_lib.c fel_lib.h
+CLOCK    := fel-clock.c fel-clock.h
+GPIO     := fel-gpio.c fel-gpio.h
+I2C      := fel-i2c.c fel-i2c.h
 SPI_FLASH:= fel-spiflash.c fel-spiflash.h fel-remotefunc-spi-data-transfer.h
+MMC      := fel-mmc.c fel-mmc.h fel-remotefunc-mmc-data-transfer.h
 
-sunxi-fel: fel.c fit_image.c thunks/fel-to-spl-thunk.h $(PROGRESS) $(SOC_INFO) $(FEL_LIB) $(SPI_FLASH)
+sunxi-fel: fel.c fit_image.c thunks/fel-to-spl-thunk.h $(PROGRESS) $(SOC_INFO) \
+		$(FEL_LIB) $(CLOCK) $(GPIO) $(I2C) $(SPI_FLASH) $(MMC)
 	$(CC) $(HOST_CFLAGS) $(LIBUSB_CFLAGS) $(ZLIB_CFLAGS) $(LDFLAGS) -o $@ \
 		$(filter %.c,$^) $(LIBS) $(LIBUSB_LIBS) $(ZLIB_LIBS) -lfdt
 
